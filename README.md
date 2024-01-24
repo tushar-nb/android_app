@@ -4,3 +4,6 @@ A basic android app to learn :
 - Add image to the background / app
 - align and arrange text and image
 - string and image Resource
+
+- learnt about nullable and non-nullable variables and conditions in kotlin
+- adding interactive buttons and UI state
