@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingText(message: String, from:String, modifier: Modifier = Modifier){
     Column (
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Top,
         modifier = modifier
         ) {
         Text(                                //birthday wish message

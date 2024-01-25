@@ -5,4 +5,4 @@
 5. To set children's position within a Row, set the horizontalArrangement and verticalAlignment arguments.
    For a Column, set the verticalArrangement and horizontalAlignment arguments.
 6. String resource(): why to do it ?
-7.
+7. Deligates and kProperty
