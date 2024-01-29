@@ -48,7 +48,7 @@ class MainActivity : ComponentActivity() {
 
 @Preview(
     showBackground = true,
-//    showSystemUi = true,
+    showSystemUi = true,
     name = "DiceRollApp")
 @Composable
 fun DiceRollerApp() {
@@ -77,6 +77,7 @@ fun DiceRollWithImage(modifier: Modifier= Modifier
                 5-> R.drawable.dice_5
                 else-> R.drawable.dice_6
             }
+        System.out.println(result)
         Image(painter = painterResource(id = img), contentDescription = result.toString())
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = { result = (1..6).random() }) {//gets a random number between 1 to 6 inclusive
