@@ -25,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.diceroll.ui.theme.DiceRollTheme
 
 class MainActivity : ComponentActivity() {
@@ -34,6 +35,7 @@ class MainActivity : ComponentActivity() {
             DiceRollTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
+
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
@@ -46,7 +48,7 @@ class MainActivity : ComponentActivity() {
 
 @Preview(
     showBackground = true,
-    showSystemUi = true,
+//    showSystemUi = true,
     name = "DiceRollApp")
 @Composable
 fun DiceRollerApp() {
@@ -78,7 +80,7 @@ fun DiceRollWithImage(modifier: Modifier= Modifier
         Image(painter = painterResource(id = img), contentDescription = result.toString())
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = { result = (1..6).random() }) {//gets a random number between 1 to 6 inclusive
-            Text(stringResource(id = R.string.roll))
+            Text(stringResource(id = R.string.roll), fontSize = 24.sp)
 
         }
     }
