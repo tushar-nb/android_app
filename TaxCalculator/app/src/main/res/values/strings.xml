@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TaxCalculator</string>
+    <string name= "message">Tax Amount is: ₹ </string>
+    <string name="title">TAX CALCULATOR</string>
+</resources>
