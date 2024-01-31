@@ -17,3 +17,5 @@ A basic android app to learn :
 - A diceRoll app which include images and logic of the app (used 'remember' composable function)
 - learnt states in compose
 - how TextField () stores input??
+
+- TAX CALCULATOR APP: uses TextField, States, MutableState, computation logic, lambda functions, etc.
