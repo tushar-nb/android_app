@@ -2,5 +2,4 @@
     <string name="app_name">TaxCalculator</string>
     <string name= "message">Tax Amount is: ₹ </string>
     <string name="title">TAX CALCULATOR</string>
-    <string name="placeholder">Enter Income </string>
 </resources>
