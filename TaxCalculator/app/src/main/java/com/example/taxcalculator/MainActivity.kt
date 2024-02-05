@@ -3,7 +3,6 @@ package com.example.taxcalculator
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -42,8 +41,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.taxcalculator.ui.theme.TaxCalculatorTheme
 
 class MainActivity : ComponentActivity() {
@@ -64,22 +61,27 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun editNumberField( onValueChange: (String)->Unit,modifier: Modifier=Modifier,amountInput:String,leadingIcon:Int){
+fun EditNumberField(onValueChange: (String)->Unit,
+                    modifier: Modifier=Modifier,
+                    amountInput:String,
+                    leadingIcon:Int,
+                    show:Boolean, onMutableValueChange: (Boolean) -> Unit
+){
 
     Column {
         var text by remember { mutableStateOf("") }
-        val maxChar = 9
+        val maxChar = 8
         TextField(
             label = { Text(text = "Total Income Amount:")},
             leadingIcon = { Icon(painter = painterResource(id = leadingIcon), contentDescription = null,modifier = Modifier.size(24.dp))},
-//            value = amountInput,
             value = text,
-//            onValueChange = onValueChange,
             onValueChange = {
                 if(it.length<=maxChar) {
                     text = it
                     onValueChange(text)
+                    onMutableValueChange(false)
                 }
+                if(text.isEmpty()) onMutableValueChange(false)
             },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -89,7 +91,7 @@ fun editNumberField( onValueChange: (String)->Unit,modifier: Modifier=Modifier,a
 }
 
 private fun computeTax(amount:String):Double{
-    var income:Double
+    val income:Double
     if(amount==" "){
          income = 0.0
     }
@@ -121,20 +123,11 @@ private fun computeTax(amount:String):Double{
     }
 }
 
-@Composable
-private fun displayTax(message:String, tax:Double) {
-    Text(
-        modifier = Modifier
-            .padding(16.dp),
-        fontWeight = FontWeight.Bold,
-        fontSize = 28.sp,
-        text = message+ tax.toString()
-    )
-}
+
 
 @Composable
 fun  CalculateTax(message: String,title:String, modifier: Modifier = Modifier) {
-
+    var show by remember { mutableStateOf(false) }
     var amountInput by remember {
         mutableStateOf(" ")
     }
@@ -142,8 +135,10 @@ fun  CalculateTax(message: String,title:String, modifier: Modifier = Modifier) {
         amountInput=" "
     }
     val tax = computeTax(amountInput)
-
-    Column {
+    Column(
+        modifier = Modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Text(
             text = title,
             modifier = Modifier
@@ -160,40 +155,56 @@ fun  CalculateTax(message: String,title:String, modifier: Modifier = Modifier) {
 
         )
         Spacer(modifier = Modifier.height(50.dp))
-        editNumberField(
+        EditNumberField(
             onValueChange = {amountInput = it},
             modifier = Modifier
                 .padding(bottom = 32.dp)
                 .fillMaxWidth(),
             amountInput,
-            leadingIcon = R.drawable.income)
-        Spacer(modifier = Modifier.height(100.dp))
+            leadingIcon = R.drawable.income,show,onMutableValueChange = {show = it})
+        Spacer(modifier = Modifier.height(50.dp))
+        ShowButton(message,tax,amountInput, show, onMutableValueChange = {show = it})
 
+    }
+}
+
+@Composable
+fun ShowButton(message: String, tax: Double,amountInput: String,show:Boolean, onMutableValueChange:(Boolean)->Unit) {
+
+//    var show by remember { mutableStateOf(false) }
+
+    Column (
+
+        modifier = Modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        if(show && amountInput!=" " ) {
+            Text(
+                modifier = Modifier,
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp,
+                text = message+ tax.toString()
+            )
+        }
+//        if(amountInput.length ==len-1) show = false
         Button(
-            onClick = {/*todo*/},
-            colors = ButtonDefaults.buttonColors( Color.Blue),
+            onClick = {
+                if(!show) {
+//                    show.value = true
+                    onMutableValueChange(true)
+                }
+            },
+            colors = ButtonDefaults.buttonColors(Color.Blue),
             shape = RoundedCornerShape(8.dp),
             contentPadding = PaddingValues(16.dp),
             modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-
-        ) {
+                .align(Alignment.CenterHorizontally))
+        {
             Text(text = "Calculate")
         }
-
-        if(amountInput!=" " ) {
-            displayTax(message = message, tax =tax )
-        }
-
     }
 
-
 }
-@Composable
-fun someFunction() {
-    TODO("Not yet implemented")
-}
-
 
 
 @Preview(showBackground = true, showSystemUi = true, name="calculate tax")
