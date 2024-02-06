@@ -91,12 +91,11 @@ fun EditNumberField(onValueChange: (String)->Unit,
 }
 
 private fun computeTax(amount:String):Double{
-    val income:Double
-    if(amount==" "){
-         income = 0.0
+    val income=if(amount==" "){
+         0.0
     }
     else {
-        income = amount.toDouble()
+        amount.toDouble()
     }
     when( income){
         in 0.0..300000.0 -> return 0.0
