@@ -21,12 +21,12 @@ A basic android app to learn :
 - TAX CALCULATOR APP: uses TextField, States, MutableState, computation logic, lambda functions, etc.
 
 CHANGES / MODIFICATIONS ASKED TO DO IN THE APP:
-- data loss on landscape (on rotation) View Model
-- calculate button for input validation
-- error msg if income is empty
+- data loss on landscape (on rotation) View Model-
+- calculate button for input validation-
+- error msg if income is empty-
 - breakup of the total taxable amount
-- camel Case writing
-- Unit test and write unit tests on tax logic
-- Using Constants in kotlin
+- camel Case writing-
+- Unit test and write unit tests on tax logic-
+- Using Constants in kotlin-
 
  
