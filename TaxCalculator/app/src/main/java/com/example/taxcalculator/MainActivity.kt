@@ -65,14 +65,18 @@ fun EditNumberField(onValueChange: (String)->Unit,
                     modifier: Modifier=Modifier,
                     amountInput:String,
                     leadingIcon:Int,
-                    show:Boolean, onMutableValueChange: (Boolean) -> Unit
+                    show:Boolean, onMutableValueChange: (Boolean) -> Unit,
 ){
-
     Column {
         var text by remember { mutableStateOf("") }
         val maxChar = 8
         TextField(
             label = { Text(text = "Total Income Amount:")},
+            supportingText = {
+                             if(show && amountInput== " "){
+                                 Text(text = "Enter a valid Income",color = MaterialTheme.colorScheme.error)
+                             }
+            },
             leadingIcon = { Icon(painter = painterResource(id = leadingIcon), contentDescription = null,modifier = Modifier.size(24.dp))},
             value = text,
             onValueChange = {
@@ -177,6 +181,9 @@ fun ShowButton(message: String, tax: Double,amountInput: String,show:Boolean, on
         modifier = Modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
+        if(amountInput==" " && show){
+
+        }
         if(show && amountInput!=" " ) {
             Text(
                 modifier = Modifier,
