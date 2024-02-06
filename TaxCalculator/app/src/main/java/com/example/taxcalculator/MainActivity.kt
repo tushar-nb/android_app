@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.taxcalculator.ui.theme.TaxCalculatorTheme
 
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +60,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 
 @Composable
 fun EditNumberField(onValueChange: (String)->Unit,
@@ -94,7 +96,13 @@ fun EditNumberField(onValueChange: (String)->Unit,
     }
 }
 
-private fun computeTax(amount:String):Double{
+//additional surcharge and cess charges
+    const val fixedAmt6 = 15000
+    const val fixedAmt9= 45000
+    const val fixedAmt12 = 90000
+    const val fixedAmt16 = 150000
+public fun computeTax(amount:String):Double{               //kept public for testing purpose
+
     val income=if(amount==" "){
          0.0
     }
@@ -108,19 +116,19 @@ private fun computeTax(amount:String):Double{
                                             return amt
                                        }
         in 600001.0..900000.0 -> {   var amt :Double=0.00+ (income-600000)
-                                            amt = (0.1*amt)+15000
+                                            amt = (0.1*amt)+ fixedAmt6
                                             return amt
                                         }
         in 900001.0..1200000.0 -> {   var amt :Double=0.00+ (income-900000)
-                                             amt = (0.15*amt)+45000
+                                             amt = (0.15*amt)+ fixedAmt9
                                              return amt
                                          }
         in 1200001.0..1500000.0 -> {   var amt :Double=0.00+ (income-1200000)
-                                             amt = (0.2*amt)+90000
+                                             amt = (0.2*amt)+ fixedAmt12
                                              return amt
                                           }
         else -> { var amt = 0.0 + (income-1500000)
-                  amt = (0.3*amt) + 150000
+                  amt = (0.3*amt) + fixedAmt16
                   return amt
                 }
     }
@@ -129,7 +137,8 @@ private fun computeTax(amount:String):Double{
 
 
 @Composable
-fun  CalculateTax(message: String,title:String, modifier: Modifier = Modifier) {
+fun  CalculateTax(message: String,title:String) {
+
     var show by remember { mutableStateOf(false) }
     var amountInput by remember {
         mutableStateOf(" ")
@@ -138,6 +147,7 @@ fun  CalculateTax(message: String,title:String, modifier: Modifier = Modifier) {
         amountInput=" "
     }
     val tax = computeTax(amountInput)
+
     Column(
         modifier = Modifier,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -181,9 +191,6 @@ fun ShowButton(message: String, tax: Double,amountInput: String,show:Boolean, on
         modifier = Modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        if(amountInput==" " && show){
-
-        }
         if(show && amountInput!=" " ) {
             Text(
                 modifier = Modifier,
