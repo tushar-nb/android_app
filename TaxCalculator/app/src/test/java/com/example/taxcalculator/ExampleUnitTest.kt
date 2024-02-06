@@ -1,7 +1,6 @@
 package com.example.taxcalculator
 
 import org.junit.Test
-
 import org.junit.Assert.*
 
 /**
@@ -9,9 +8,14 @@ import org.junit.Assert.*
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-class ExampleUnitTest {
+class TaxValidatorTest {
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun testWrongTax() {
+        assertEquals(0.0, computeTax("600000"),0.0)
+    }
+
+    @Test
+    fun testCorrectTax() {
+        assertEquals(0.0, computeTax("0"),0.0)
     }
 }
