@@ -42,6 +42,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.taxcalculator.ui.theme.TaxCalculatorTheme
+import java.text.NumberFormat
+import java.util.Locale
 
 
 class MainActivity : ComponentActivity() {
@@ -96,12 +98,12 @@ fun EditNumberField(onValueChange: (String)->Unit,
     }
 }
 
-//additional surcharge and cess charges
+//additional surcharge and c ess charges
     const val fixedAmt6 = 15000
     const val fixedAmt9= 45000
     const val fixedAmt12 = 90000
     const val fixedAmt16 = 150000
-public fun computeTax(amount:String):Double{               //kept public for testing purpose
+fun computeTax(amount:String):Double{               //kept public for testing purpose
 
     val income=if(amount==" "){
          0.0
@@ -196,7 +198,8 @@ fun ShowButton(message: String, tax: Double,amountInput: String,show:Boolean, on
                 modifier = Modifier,
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
-                text = message+ tax.toString()
+//                text = message+ tax.toString()
+                text = message + NumberFormat.getCurrencyInstance(Locale.US).format(tax) //try to get in INR not US
             )
         }
 //        if(amountInput.length ==len-1) show = false
