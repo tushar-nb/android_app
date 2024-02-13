@@ -9,15 +9,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.diceroll.ui.theme.DiceRollTheme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,29 +46,28 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
+
+
 @Preview(
     showBackground = true,
     showSystemUi = true,
     name = "DiceRollApp")
 @Composable
-fun DiceRollerApp() {
+fun DiceRollerApp(){
     DiceRollTheme {
-        DiceRollWithImage(modifier = Modifier)
+        DiceRollWithImage()
     }
 }
 @Composable
-fun DiceRollWithImage(modifier: Modifier= Modifier
-    .fillMaxSize()
-    .wrapContentSize(Alignment.Center)){
+fun DiceRollWithImage(){
     Column(
         modifier = Modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
 
     ) {
-
-        var result by remember { mutableStateOf(1) }
-
+        var result by rememberSaveable { mutableIntStateOf(1) }
         val img = when(result) {
                 1-> R.drawable.dice_1
                 2-> R.drawable.dice_2
@@ -77,7 +76,6 @@ fun DiceRollWithImage(modifier: Modifier= Modifier
                 5-> R.drawable.dice_5
                 else-> R.drawable.dice_6
             }
-        System.out.println(result)
         Image(painter = painterResource(id = img), contentDescription = result.toString())
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = { result = (1..6).random() }) {//gets a random number between 1 to 6 inclusive
