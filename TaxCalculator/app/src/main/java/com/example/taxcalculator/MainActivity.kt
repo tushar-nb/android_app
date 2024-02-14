@@ -28,7 +28,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,6 +48,7 @@ import java.util.Locale
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContent {
             TaxCalculatorTheme {
@@ -72,7 +73,7 @@ fun EditNumberField(onValueChange: (String)->Unit,
                     show:Boolean, onMutableValueChange: (Boolean) -> Unit,
 ){
     Column {
-        var text by remember { mutableStateOf("") }
+        var text by rememberSaveable { mutableStateOf("") }
         val maxChar = 8
         TextField(
             label = { Text(text = "Total Income Amount:")},
@@ -141,14 +142,15 @@ fun computeTax(amount:String):Double{               //kept public for testing pu
 @Composable
 fun  CalculateTax(message: String,title:String) {
 
-    var show by remember { mutableStateOf(false) }
-    var amountInput by remember {
+    var show by rememberSaveable { mutableStateOf(false) }
+    var amountInput by rememberSaveable {
         mutableStateOf(" ")
     }
     if(amountInput=="") {
         amountInput=" "
     }
     val tax = computeTax(amountInput)
+
 
     Column(
         modifier = Modifier,
@@ -178,7 +180,7 @@ fun  CalculateTax(message: String,title:String) {
             amountInput,
             leadingIcon = R.drawable.income,show,onMutableValueChange = {show = it})
         Spacer(modifier = Modifier.height(50.dp))
-        ShowButton(message,tax,amountInput, show, onMutableValueChange = {show = it})
+        ShowButton(message, tax,amountInput, show, onMutableValueChange = {show = it})
 
     }
 }
@@ -199,7 +201,7 @@ fun ShowButton(message: String, tax: Double,amountInput: String,show:Boolean, on
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
 //                text = message+ tax.toString()
-                text = message + NumberFormat.getCurrencyInstance(Locale.US).format(tax) //try to get in INR not US
+                text = message + NumberFormat.getCurrencyInstance(Locale("en","IN")).format(tax)
             )
         }
 //        if(amountInput.length ==len-1) show = false
