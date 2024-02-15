@@ -15,7 +15,7 @@ class TaxViewModel : ViewModel() {
     val uiState: StateFlow<TaxUiState> = _uiState.asStateFlow()
 
      fun doCalculation(){
-         val tax : Double;
+         val tax : Double
         val amount = _uiState.value.totalIncome
         val income=if(amount=="" || amount.isBlank()){ 0.0 }
         else { amount.toDouble() }

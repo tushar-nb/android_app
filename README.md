@@ -29,4 +29,7 @@ CHANGES / MODIFICATIONS ASKED TO DO IN THE APP:
 - Unit test and write unit tests on tax logic-
 - Using Constants in kotlin-
 
+
+- IMPLEMENTED TAX CALCULATOR WITH ABOVE CHANGES AND VIEWMODEL.
+
  
