@@ -101,6 +101,9 @@ fun TaxCalculate(modifier: Modifier = Modifier,taxViewModel: TaxViewModel = view
                 if(show && taxUiState.totalIncome=="") {
                     Text(text = "Enter a valid Income", color = colorScheme.error)
                 }
+                else if ( taxUiState.totalIncome.startsWith("-")) {
+                    Text(text = "Income cannot be Negative", color = colorScheme.error)
+                }
             },
             value = text,
             onValueChange = {
@@ -135,7 +138,7 @@ fun ShowButton(
     taxViewModel: TaxViewModel,
 ) {
     Column (modifier = Modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        if(show && incomeAmount!="") {
+        if(show && incomeAmount!="" && !incomeAmount.startsWith("-")) {
 //            calculateFun()
             taxViewModel.doCalculation()
             Text(

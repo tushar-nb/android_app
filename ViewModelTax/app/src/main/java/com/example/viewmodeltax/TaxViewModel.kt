@@ -1,44 +1,47 @@
 package com.example.viewmodeltax
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-const val fixedAmt6 = 15000
-const val fixedAmt9= 45000
-const val fixedAmt12 = 90000
-const val fixedAmt16 = 150000
 
 class TaxViewModel : ViewModel() {
+
     private val _uiState = MutableStateFlow(TaxUiState())
     val uiState: StateFlow<TaxUiState> = _uiState.asStateFlow()
+    private val TAG = "TaxViewModel"
 
-     fun doCalculation(){
+    fun doCalculation(){
          val tax : Double
         val amount = _uiState.value.totalIncome
-        val income=if(amount=="" || amount.isBlank()){ 0.0 }
+        if(amount.startsWith("-")) {
+            _uiState.value.totalIncome=""
+            throw InvalidIncomeException("Income cannot be negative")
+        }
+        val income=if(amount=="" || amount.isBlank()){ ZERO }
         else { amount.toDouble() }
         when(income){
-            in 0.0..300000.0 ->  tax = 0.0
-            in 300001.0..600000.0 -> {   var amt :Double=0.00+ (income-300000)
-                amt = (0.05*amt)
+            in START_1..END_1 ->  tax = ZERO
+            in START_2..END_2 -> {   var amt :Double= ZERO + (income - LIMIT_1 )
+                amt = ( SLAB_1_PERCENT *amt)
                 tax = amt
             }
-            in 600001.0..900000.0 -> {   var amt :Double=0.00+ (income-600000)
-                amt = (0.1*amt)+ fixedAmt6
+            in START_3..END_3 -> {   var amt :Double= ZERO + (income - LIMIT_2)
+                amt = ( SLAB_2_PERCENT *amt)+ FIXED_AMOUNT_6
                 tax = amt
             }
-            in 900001.0..1200000.0 -> {   var amt :Double=0.00+ (income-900000)
-                amt = (0.15*amt)+ fixedAmt9
+            in START_4..END_4 -> {   var amt :Double= ZERO + (income - LIMIT_3)
+                amt = ( SLAB_3_PERCENT *amt)+ FIXED_AMOUNT_9
                 tax = amt
             }
-            in 1200001.0..1500000.0 -> {   var amt :Double=0.00+ (income-1200000)
-                amt = (0.2*amt)+ fixedAmt12
+            in START_5..END_5 -> {   var amt :Double= ZERO + (income - LIMIT_4)
+                amt = ( SLAB_4_PERCENT *amt)+ FIXED_AMOUNT_12
                 tax = amt
             }
-            else -> { var amt = 0.0 + (income-1500000)
-                amt = (0.3*amt) + fixedAmt16
+            else -> { var amt = ZERO + (income - LIMIT_5)
+                amt = ( SLAB_5_PERCENT *amt) + FIXED_AMOUNT_16
                 tax= amt
             }
         }
